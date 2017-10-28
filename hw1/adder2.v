@@ -47,13 +47,14 @@ module adder(
 	// 
 );
 	// TODO: Implement this module here
-	wire [3:0] c_in, P, G;
-	wire c_out;
-	adder_4_bit M1 (c_in[1], sum[3:0],   P[0], G[0],  a[3:0],    b[3:0],   0);
-	adder_4_bit M2 (c_in[2], sum[7:4],   P[1], G[1],  a[7:4],    b[7:4],   c_in[1]);
-	adder_4_bit M3 (c_in[3], sum[11:8],  P[2], G[2],  a[11:8],   b[11:8],  c_in[2]);
-	adder_4_bit M4 (0,       sum[15:12], P[3], G[3],  a[15:12],  b[15:12], c_in[3]);
+	wire [3:0] c_in, P, G, c_out;
+	wire empty, ept;
+	adder_4_bit M1 (c_out[1], sum[3:0],   P[0], G[0],  a[3:0],    b[3:0],   empty);
+	adder_4_bit M2 (c_out[2], sum[7:4],   P[1], G[1],  a[7:4],    b[7:4],   c_in[1]);
+	adder_4_bit M3 (c_out[3], sum[11:8],  P[2], G[2],  a[11:8],   b[11:8],  c_in[2]);
+	adder_4_bit M4 (ept,      sum[15:12], P[3], G[3],  a[15:12],  b[15:12], c_in[3]);
 	
-	
-	
+	assign c_in[1] = G[0];
+	assign c_in[2] = G[1] | (P[1] & G[0]);
+	assign c_in[3] = G[2] | (P[2] & G[1]) | (P[2] & P[1] & G[0]);
 endmodule
