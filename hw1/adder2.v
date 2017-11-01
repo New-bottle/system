@@ -22,11 +22,10 @@ module adder_4_bit(output c_out, output [3:0] sum, output PG, GG, input [3:0] a,
     assign P = a ^ b;
     
     assign C[0] = G[0] | (P[0] & c_in);
-    
-    assign C[1] = G[1] | (P[1] & C[0]);
-    assign C[2] = G[2] | (P[2] & C[1]);
-    assign C[3] = G[3] | (P[3] & C[2]);
-    
+	assign C[1] = G[1] | (P[1] & G[0]) | (P[1] & P[0] & c_in);
+	assign C[2] = G[2] | (P[2] & G[1]) | (P[2] & P[1] & G[0]) | (P[2] & P[1] & P[0] & c_in);
+	assign C[3] = G[3] | (P[3] & G[2]) | (P[3] & P[2] & G[1]) | (P[3] & P[2] & P[1]) | (P[3] & P[2] & P[1] & P[0] & c_in);
+
     assign sum[0] = P[0] ^ c_in;
     assign sum[3:1] = P[3:1] ^ C[2:0];
     
@@ -54,7 +53,7 @@ module adder(
 	adder_4_bit M3 (c_out[3], sum[11:8],  P[2], G[2],  a[11:8],   b[11:8],  c_in[2]);
 	adder_4_bit M4 (ept,      sum[15:12], P[3], G[3],  a[15:12],  b[15:12], c_in[3]);
 	
-	assign c_in[1] = G[0];
-	assign c_in[2] = G[1] | (P[1] & G[0]);
-	assign c_in[3] = G[2] | (P[2] & G[1]) | (P[2] & P[1] & G[0]);
+//assign c_in[1] = G[0];
+//assign c_in[2] = G[1] | (P[1] & G[0]);
+//assign c_in[3] = G[2] | (P[2] & G[1]) | (P[2] & P[1] & G[0]);
 endmodule
