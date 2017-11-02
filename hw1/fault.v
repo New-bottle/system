@@ -41,11 +41,21 @@ module testfault;
 	end
 endmodule
 
+module bigger(input [15:0] a, input [15:0] b, output c);
+	wire [15:0] y;
+	assign c = 1;
+endmodule
+
 module fault(a,b,answer);
 	input wire[15:0] a,b;
-	output wire[15:0] answer;
-	if(a>b)
+	output reg[15:0] answer;
+	wire c;
+	bigger big1 (a, b, c);
+always @(a or b or answer) begin
+	if(c != 1'b1)
 		assign answer=a;
 	else
 		assign answer=b;
+end
 endmodule
+
