@@ -1,0 +1,39 @@
+\documentclass[a4paper]{article}
+
+
+\usepackage{geometry}
+\usepackage{bm}
+\usepackage{cmap}
+\usepackage{ctex}
+\usepackage{cite}
+\usepackage{color}
+\usepackage{float}
+\usepackage{xeCJK}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{setspace}
+
+\usepackage{enumerate}
+\usepackage{indentfirst}
+\usepackage{graphicx}
+\usepackage[cache=false]{minted}
+
+\begin{document}
+
+\section{思考题1:超前进位加法器}
+	串行的加法器需要一位一位运算，时间是累加的。而超前进位加法器是并行计算，同时计算4位的所有值，而每个数位的计算都是由主析取范式构成，只需并联这些电路，每段电路内部串联即可，变得短了很多，运行速度就变快了。
+\section{思考题2:wire和reg}
+	wire 需要持续的驱动，只能用于组合逻辑。
+	用途：
+	\begin{enumerate}
+		\item module的input和output端口
+		\item 连接module里的不同部分
+	\end{enumerate}
+
+	reg 保存最后一次的赋值，既可用于组合逻辑，也可用于时序逻辑。
+\section{拓展题}
+	当reg赋值的触发条件是\textbf{赋值语句右侧任意操作数变化}，则可以变成wire。
+
+	当reg赋值的触发条件是\textbf{时钟的上升沿或下降沿}（触发器） 或\textbf{某一信号的高电平或低电平}（锁存器）则不能变成wire
+\end{document}
